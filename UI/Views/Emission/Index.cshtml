@@ -1,0 +1,58 @@
+﻿@using System.Text.Json
+@model JsonElement
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <!-- Add Emission Form -->
+        <div class="col-md-10">
+            <div class="card shadow p-4 mb-4" style="border-radius: 12px;">
+                <h2 class="text-center mb-4 text-primary">Add Emission</h2>
+
+                <form method="post" asp-action="Add" class="d-flex justify-content-center align-items-center gap-2">
+                    <select name="type" class="form-select" style="width: 150px;" required>
+                        <option value="">Select Type</option>
+                        <option value="Energy">Energy</option>
+                        <option value="Transport">Transport</option>
+                        <option value="Waste">Waste</option>
+                    </select>
+
+                    <input type="number" step="0.01" name="amount" class="form-control" placeholder="Amount in kg CO2" style="width: 200px;" required />
+
+                    <button type="submit" class="btn btn-success">Add</button>
+                </form>
+                @if (ViewBag.Error != null)
+                {
+                    <p class="mt-3 text-danger text-center">@ViewBag.Error</p>
+                }
+            </div>
+        </div>
+
+        <!-- Emission Summary Table -->
+        <div class="col-md-10">
+            <div class="card shadow p-4" style="border-radius: 12px;">
+                <h2 class="text-center mb-4 text-success">Emission Summary</h2>
+
+                <table class="table table-striped table-bordered text-center">
+                    <thead class="table-dark">
+                        <tr>
+                            <th>Energy (kg CO2)</th>
+                            <th>Transport (kg CO2)</th>
+                            <th>Waste (kg CO2)</th>
+                            <th>Total (kg CO2)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>@Model.GetProperty("energy").GetDouble()</td>
+                            <td>@Model.GetProperty("transport").GetDouble()</td>
+                            <td>@Model.GetProperty("waste").GetDouble()</td>
+                            <td>@Model.GetProperty("total").GetDouble()</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
